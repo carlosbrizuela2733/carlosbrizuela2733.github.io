@@ -8,11 +8,11 @@ firebase.initializeApp({
 var db = firebase.firestore();
 
 // Obtener el formulario y el campo de entrada de nombre
-var formulario = document.getElementById("formulario");
+var vformulario = document.getElementById("formulario");
 var campoNombre = document.getElementById("nombre");
 
 // Escuchar el evento de envío del formulario
-formulario.addEventListener("submit", function(event) {
+vformulario.addEventListener("submit", function(event) {
   event.preventDefault(); // Evitar que el formulario se envíe
 
   var nombre = campoNombre.value; // Obtener el valor del campo de nombre
