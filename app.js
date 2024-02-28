@@ -8,6 +8,7 @@ firebase.initializeApp({
 document.addEventListener("DOMContentLoaded", function() {
   var db = firebase.firestore();
   var listaEspera = document.getElementById("turnos");
+  var botonAtender = document.getElementById("atender");
 
   // Función para mostrar la lista de espera en la interfaz de usuario
   function mostrarListaEspera() {
@@ -21,6 +22,8 @@ document.addEventListener("DOMContentLoaded", function() {
         turnoElemento.textContent = turno.nombre;
         listaEspera.appendChild(turnoElemento);
       });
+      // Habilitar el botón "Atender siguiente" si hay al menos un turno en espera
+      botonAtender.disabled = snapshot.empty;
     });
   }
 
@@ -47,13 +50,12 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // Función para atender al siguiente cliente
-  var botonAtender = document.getElementById("atender");
   botonAtender.addEventListener("click", function() {
     // Obtener el primer turno en espera de Firestore
     db.collection("turnos").where("estado", "==", "en_espera").limit(1).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
-        // Cambiar el estado del turno a "atendido"
-        db.collection("turnos").doc(doc.id).update({ estado: "atendido" });
+        // Eliminar el turno de la colección
+        db.collection("turnos").doc(doc.id).delete();
       });
     });
   });
