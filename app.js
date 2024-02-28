@@ -7,29 +7,57 @@ firebase.initializeApp({
 // Escuchar el evento 'DOMContentLoaded'
 document.addEventListener("DOMContentLoaded", function() {
   var db = firebase.firestore();
+  var listaEspera = document.getElementById("turnos");
 
-  // Obtener el formulario y el campo de entrada de nombre
-  var formulario = document.getElementById("formulario");
-  var campoNombre = document.getElementById("nombre");
+  // Función para mostrar la lista de espera en la interfaz de usuario
+  function mostrarListaEspera() {
+    // Limpiar la lista de espera antes de actualizarla
+    listaEspera.innerHTML = "";
+    // Obtener los turnos en espera de Firestore y mostrarlos en la lista
+    db.collection("turnos").where("estado", "==", "en_espera").onSnapshot(function(snapshot) {
+      snapshot.forEach(function(doc) {
+        var turno = doc.data();
+        var turnoElemento = document.createElement("li");
+        turnoElemento.textContent = turno.nombre;
+        listaEspera.appendChild(turnoElemento);
+      });
+    });
+  }
 
   // Escuchar el evento de envío del formulario
+  var formulario = document.getElementById("formulario");
   formulario.addEventListener("submit", function(event) {
     event.preventDefault(); // Evitar que el formulario se envíe
 
-    var nombre = campoNombre.value; // Obtener el valor del campo de nombre
+    var nombre = document.getElementById("nombre").value; // Obtener el nombre ingresado
 
-    // Agregar un documento a la colección "turnos" con el nombre ingresado
+    // Agregar un nuevo turno a la colección "turnos" con estado "en_espera"
     db.collection("turnos").add({
       nombre: nombre,
       estado: "en_espera",
       fecha_hora: new Date().toISOString() // Usar la fecha y hora actual
     })
-    .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
-      campoNombre.value = ""; // Limpiar el campo de nombre después de agregar el registro
+    .then(function() {
+      mostrarListaEspera(); // Mostrar la lista de espera actualizada
+      document.getElementById("nombre").value = ""; // Limpiar el campo de nombre
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
     });
   });
+
+  // Función para atender al siguiente cliente
+  var botonAtender = document.getElementById("atender");
+  botonAtender.addEventListener("click", function() {
+    // Obtener el primer turno en espera de Firestore
+    db.collection("turnos").where("estado", "==", "en_espera").limit(1).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        // Cambiar el estado del turno a "atendido"
+        db.collection("turnos").doc(doc.id).update({ estado: "atendido" });
+      });
+    });
+  });
+
+  // Mostrar la lista de espera inicial
+  mostrarListaEspera();
 });
