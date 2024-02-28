@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
       querySnapshot.forEach(function(doc) {
         // Eliminar el turno de la colección
         db.collection("turnos").doc(doc.id).delete();
+        mostrarListaEspera(); // Actualizar la lista de espera después de eliminar el turno
       });
     });
   });
