@@ -12,20 +12,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Función para mostrar la lista de espera en la interfaz de usuario
   function mostrarListaEspera() {
-    // Limpiar la lista de espera antes de actualizarla
-    listaEspera.innerHTML = "";
-    // Obtener los turnos en espera de Firestore y mostrarlos en la lista
-    db.collection("turnos").where("estado", "==", "en_espera").onSnapshot(function(snapshot) {
-      snapshot.forEach(function(doc) {
-        var turno = doc.data();
-        var turnoElemento = document.createElement("li");
-        turnoElemento.textContent = turno.nombre;
-        listaEspera.appendChild(turnoElemento);
-      });
-      // Habilitar el botón "Atender siguiente" si hay al menos un turno en espera
-      botonAtender.disabled = snapshot.empty;
+  // Limpiar la lista de espera antes de actualizarla
+  listaEspera.innerHTML = "";
+
+  // Obtener los turnos en espera de Firestore y mostrarlos en la lista
+  db.collection("turnos").where("estado", "==", "en_espera").onSnapshot(function(snapshot) {
+    snapshot.forEach(function(doc) {
+      var turno = doc.data();
+      var turnoElemento = document.createElement("li");
+      turnoElemento.textContent = turno.nombre;
+      listaEspera.appendChild(turnoElemento);
     });
-  }
+    // Habilitar el botón "Atender siguiente" si hay al menos un turno en espera
+    botonAtender.disabled = snapshot.empty;
+  });
+}
 
   // Escuchar el evento de envío del formulario
   var formulario = document.getElementById("formulario");
