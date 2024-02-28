@@ -38,6 +38,7 @@ h6 {
 
 @media only screen and (max-width: 600px) {
   .container {
+    padding: 3;
     max-width: 90%; /* Para dispositivos móviles */
     margin: 20px auto; /* Espacio inferior para la imagen */
   }
