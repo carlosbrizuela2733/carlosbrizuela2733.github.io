@@ -10,9 +10,9 @@ var db = firebase.firestore();
 // Agregar un documento a la colección "turnos"
 db.collection("turnos")
   .add({
-    nombre: "Ada",
-    estado: "atendido",
-    fecha_hora: "18:15",
+    nombre: "Otro",
+    estado: "pendiente",
+    fecha_hora: "08:00",
   })
   .then(function (docRef) {
     console.log("Document written with ID: ", docRef.id);
