@@ -1,0 +1,54 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #000; /* Fondo negro */
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  position: relative; /* Para posicionar la imagen */
+}
+
+#turnos li {
+  font-size: 18px;
+  color: #0077ff;
+}
+
+#logo {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  max-width: 150px; /* Ajusta el tamaño de la imagen según sea necesario */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #ffff00; /* Amarillo */
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    max-width: 90%; /* Para dispositivos móviles */
+    margin: 20px auto; /* Espacio inferior para la imagen */
+  }
+
+  #logo {
+    position: relative;
+    display: block;
+    margin: 20px auto; /* Centrar en dispositivos móviles */
+    max-width: 100%; /* Ajustar el tamaño al ancho del contenedor */
+    width: 80%; /* Ajustar el tamaño al ancho del contenedor */
+    height: auto; /* Mantener la proporción de la imagen */
+    text-align: center; /* Centrar horizontalmente */
+  }
+}
